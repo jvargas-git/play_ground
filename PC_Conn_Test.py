@@ -6,7 +6,8 @@ def get_ip_address():
         hostname = socket.gethostname()
         ip_address = socket.gethostbyname(hostname)
         return ip_address
-    except socket.error:
+    except socket.error as e:
+        print(f"Error getting IP address: {e}")
         return None
 
 def ping(host):
@@ -16,7 +17,8 @@ def ping(host):
             return True
         else:
             return False
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
+        print(f"Ping to {host} failed: {e}")
         return False
 
 def nslookup(host):
@@ -24,7 +26,7 @@ def nslookup(host):
         output = subprocess.check_output(['nslookup', host], stderr=subprocess.STDOUT, universal_newlines=True)
         return output
     except subprocess.CalledProcessError as e:
-        return str(e)
+        return f"NSLookup failed: {e}"
 
 def main():
     ip_address = get_ip_address()
