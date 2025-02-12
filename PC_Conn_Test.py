@@ -39,18 +39,22 @@ def main():
     # Assuming the local gateway is the first IP in the subnet
     gateway = '.'.join(ip_address.split('.')[:-1]) + '.1'
     if not ping(gateway):
-        print("No connection: Unable to reach local gateway")
+        print("No connection: Unable to reach local gateway. Please check your physical or wireless connection.")
         return
 
     print("Local gateway ping successful")
 
     if not ping('8.8.8.8'):
-        print("No connection: Unable to reach Google DNS")
+        print("No connection: Unable to reach Google DNS. Please check your internet access or if your ISP is down.")
         return
 
     print("Google DNS ping successful")
 
     nslookup_result = nslookup('google.com')
+    if "NSLookup failed" in nslookup_result:
+        print("NSLookup failed: Unable to resolve google.com. Please check your DNS server and if the DNS server is reachable.")
+        return
+
     print("NSLookup result for google.com:")
     print(nslookup_result)
 
